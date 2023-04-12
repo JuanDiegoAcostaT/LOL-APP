@@ -1,3 +1,12 @@
-export const API_KEY: string = 'RGAPI-fc1c9111-fc7f-463f-a20d-2e2f62ca7c99'
-export const BASE_URL  : string = 'http://ddragon.leagueoflegends.com/cdn/'
-export const DEFAULT_IMG : string  = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwoICAcIBw0ICAcHBwoHBwcHCA8ICQcKFREWFhURHxMYHSggGBolGxUfITEhJSkrLi4uFx8zODMsNygtLisBCgoKDQ0NDg0NDisZFRkrLSstNysrLSstLSsrKy0rKystNysrKy0rKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIALcBEwMBIgACEQEDEQH/xAAaAAEBAQEBAQEAAAAAAAAAAAAAAQIDBQQH/8QAFhABAQEAAAAAAAAAAAAAAAAAABEB/8QAFwEBAQEBAAAAAAAAAAAAAAAAAAEDAv/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AP0qDUI6ZoRqEBFWEASNQgIq5iwVIpFgIq5ixFRVwBFixYgkIsWIqCwgILAEhFgipBSAyRqICCwBkaiQEFBXzRY1FjRkxFjUWAzCNRcwGYRuEFZixqGYCZhGoQEixY1EVmEaiwGYsXMWIMxYsWCswjUIgyRqEBmEahEVmEahAYhG4kBlI1CAyRqEFZFiiOGYsaixozYixqLAYixqLAZhGosFYixuEBmEbhAZixqERUhGosBmLFixFZhGosBiEbhEGIRuEBiEbhEViEbiQGYkbhAYhG4kBmJG4QViDcQRyjUahGjNmEaiwGYRrMWCsxI3CAzFixYDMWNQgJFzFi5iKzCNkBmEahEVIRqEBmEaggzCNQgMwjUIiswjcSAzEjcIDEI3CAxEjpEgMQbgDlFiwaOEhFUGYsVcBmEahASEVQQURSLBQSLBQSLARQUBIRpEEGoQEhFBUhFhEEhFhAZhGoQGYRqEBmI3AVwAaMxQAABQQFARVABQAURRVDBBQAFBABRUFABUQCKAhFICQigIKA+QSjRyqsqCiUoNFSog0IA0IUGhlRWhAGlZWoKYioKqAKrKiqqAKIoACAACiAAAPhpWataOWislBqlZpUG6VmpQbpWaUG6ZrFWg2tYq0VqrWKtQaXNZpQbWsLUGxlRWhDAaVlQURUFEAUQBRAFEUHm0rNK0ct0rNKDVKzTNQapUqVRulYq1BqrmsUoOlKxVordWsUzQdKua55rVQarWa55rVQaqs5q0VqqyuaDWKzVQVWVoKICqAAIAqs0B5lKlK0cNUrNAapWQGqVmgNUrIg3Ss0oN5q1hRWqtZEG6uazi0G6tYqora5rGNUGq1jGKDSsrUVoQBoQBpBAUQBRAHliDRwtKgDVGQGkogLVZAaolEGqtZUVqrWVQaq4zi5oreKxVxBvNXGcXAbVlUVqqyoNCKCiANJUpQUSlBRAHlgNHAAAABQAAAUBBVAUWgg1igKuNYCC41UAaxcAVcVRAUAAAABQAQAB//9k='
+export const API_KEY: string = 'RGAPI-67aeca23-3fc7-423d-9364-81464aaa35d4'
+export const BASE_URL_CHAMP: string = 'http://ddragon.leagueoflegends.com/cdn/'
+export const BASE_URL_SUMMONER: string = 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/'
+export const BASE_URL_MATCH: string = 'https://europe.api.riotgames.com/lol/match/v5/matches/'
+export const BASE_URL_LEAGUE: string = 'https://euw1.api.riotgames.com/lol/league/v4/'
+
+
+export const mainEndpoint = async (url: string): Promise<any> => {
+    const req = await fetch(`${url}`)
+    const res = await req.json()
+    return res
+}
