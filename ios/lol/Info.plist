@@ -3,8 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>UIAppFonts</key>
+	<array>
+		<string>AntDesign.ttf</string>
 		<string>BeaufortforLOL-Medium.ttf</string>
 		<string>Spiegel_TT_Regular.ttf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -41,7 +44,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
