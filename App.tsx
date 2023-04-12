@@ -17,6 +17,7 @@ import HeroeOverviewScreen from './screens/ChampionOverviewScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import Spinner from './components/Spinner';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +50,7 @@ function App(): JSX.Element {
           <Stack.Screen name="MainTab" component={MainTabNavigator} />
           <Stack.Screen name="HeroeOverView" component={HeroeOverviewScreen} />
         </Stack.Navigator>
-
+          <Spinner />
       </NavigationContainer>
       </Provider>
     </SafeAreaProvider>
