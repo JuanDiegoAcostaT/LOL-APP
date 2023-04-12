@@ -7,8 +7,11 @@ import {
     Text,
     View
 } from "react-native";
+import { useDispatch } from "react-redux";
 import { IChampion } from "../interfaces/Champion";
-import { BASE_URL } from "../services/constants";
+import { toggleActive } from "../redux/slices/SpinnerSlice";
+import { getChampionById } from "../services/championsService";
+import { BASE_URL_CHAMP } from "../services/constants";
 import { colors, sizes } from "../styles/main";
 import ImageContainer from "./ImageContainer";
 
@@ -17,10 +20,17 @@ type IChampionComponent = {
 }
 
 function Champion({ champion }: IChampionComponent): ReactElement {
+    const dispatch = useDispatch()
     const navigation = useNavigation<any>();
 
     const handleChampionDetails = (): void => {
-        navigation.navigate('HeroeOverView', { id: champion.id })
+        dispatch(toggleActive(true))
+        getChampionById(champion.id).then(champion => {
+             dispatch(toggleActive(false))
+            navigation.navigate('HeroeOverView', { champion })
+        }).catch(() => {
+            dispatch(toggleActive(false))
+        })
     }
 
     return <View style={styles.championContainer} >
@@ -34,7 +44,7 @@ function Champion({ champion }: IChampionComponent): ReactElement {
                 <ImageContainer 
                 styles={styles.championImage}
                  mainImage={
-                    BASE_URL + '13.6.1/img/champion/' +
+                    BASE_URL_CHAMP + '13.6.1/img/champion/' +
                   champion.image.full} />
              <Text 
              style={styles.championTitle} >
@@ -53,7 +63,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingBottom: sizes.md,
         backgroundColor: colors.light,
-        borderRadius: 16,
+        borderRadius: sizes.md,
         elevation: 4, // android,
         //ios
         shadowColor: colors.black,

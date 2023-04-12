@@ -12,7 +12,7 @@ import { BASE_URL } from "../services/constants";
 
 function ChampionOverviewScreen() {
     const { params } = useRoute<RouteProp<IHeroOverView, 'Details'>>();
-    const { id }: { id: string } = params
+    const { champion }: { champion: IChampion } = params
     const { insets } = useSafeArea()
     const navigation = useNavigation<any>();
 

@@ -1,5 +1,7 @@
+import { IChampion } from "./Champion";
+
 type IHeroOverViewDetails = {
-    id: string
+    champion: IChampion
 }
 
 export type IHeroOverView = {
