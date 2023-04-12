@@ -14,6 +14,8 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-lol-lolTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-lol-lolTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		2D07872D1F98476DA94A6CB1 /* BeaufortforLOL-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A256BF3E8F034F29ABB3784D /* BeaufortforLOL-Medium.ttf */; };
+		8943F65D4A714B7A8D8E3FD7 /* Spiegel_TT_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F3A7B1D9C5E44F3A6D001F8 /* Spiegel_TT_Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

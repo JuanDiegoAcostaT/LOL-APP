@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/BeaufortforLOL-Medium.ttf",
+      "sha1": "09d958314532a377550a6ed6e57281fd09cc6221"
+    },
+    {
+      "path": "assets/fonts/Spiegel_TT_Regular.ttf",
+      "sha1": "88b14d82ab7fb4cc48098f9f30fa1687cc0413ba"
+    }
+  ]
+}
