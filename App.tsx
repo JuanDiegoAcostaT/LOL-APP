@@ -15,6 +15,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from './screens/LogInScreen';
 import HeroeOverviewScreen from './screens/ChampionOverviewScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import SummonerOverviewScreen from './screens/SummonerOverViewScreen';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import Spinner from './components/Spinner';
@@ -40,18 +41,18 @@ function App(): JSX.Element {
   return (
     <SafeAreaProvider >
       <Provider store={store}>
-      <NavigationContainer>
-
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false
-          }}
-        >
-          <Stack.Screen name="MainTab" component={MainTabNavigator} />
-          <Stack.Screen name="HeroeOverView" component={HeroeOverviewScreen} />
-        </Stack.Navigator>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false
+            }}
+          >
+            <Stack.Screen name="MainTab" component={MainTabNavigator} />
+            <Stack.Screen name="HeroeOverView" component={HeroeOverviewScreen} />
+            <Stack.Screen name="SummonerOverView" component={SummonerOverviewScreen} />
+          </Stack.Navigator>
           <Spinner />
-      </NavigationContainer>
+        </NavigationContainer>
       </Provider>
     </SafeAreaProvider>
   );
