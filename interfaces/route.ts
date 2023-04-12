@@ -17,9 +17,16 @@ export type ISummonerOverView = {
     SummonerOverViewScreen: undefined,
     Details: ISummoneroverViewDetails
 };
+
+export type IHome = {
+    HomeScreen: undefined,
+    Details: any
+}
+
 export type RootStackParamList = {
     HeroeOverView: IHeroOverView;
     SummonerOverView: ISummonerOverView;
+    Home: IHome;
     Search: undefined;
     Favs: undefined;
     LogIn: undefined;
