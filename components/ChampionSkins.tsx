@@ -35,7 +35,6 @@ function ChampionSkin(props: IChampionSkinComponent):
         width={Dimensions.get('window').width}
         delay={10000}
         ItemElement={carouselItem}
-        keyElement={'num'}
         handleIndexChange={handleCarouselChange}
         data={championSkins || []} />
 }
