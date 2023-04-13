@@ -1,5 +1,4 @@
 import { ReactElement, useState } from "react"
-import { DEFAULT_IMG } from "../services/constants"
 import { Image } from "react-native";
 
 function ImageContainer(
@@ -10,7 +9,7 @@ function ImageContainer(
         useState<string>(mainImage)
 
     const resetImage = (): void => {
-        setImage(DEFAULT_IMG)
+        setImage('https://i.imgur.com/AizUHEf.png')
     }
 
     return <Image
