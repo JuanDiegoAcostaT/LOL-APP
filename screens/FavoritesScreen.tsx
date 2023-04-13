@@ -7,14 +7,14 @@ import { favoritesSummonerSelector } from "../redux/slices/FavoritesSummonersSli
 function FavoritesScreen() {
     const { favorites } = useSelector(favoritesSummonerSelector)
     return <View>
-    
+
         <Text>Favorites</Text>
         {
             favorites.map((favId) => {
                 return <Text id={favId} >{favId}</Text>
             })
         }
-     
+
     </View>
 }
 
