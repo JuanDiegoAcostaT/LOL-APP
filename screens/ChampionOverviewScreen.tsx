@@ -1,77 +1,127 @@
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
-import { IChampion } from "../interfaces/Champion";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import React, {
+    ReactElement,
+    RefCallback,
+    useCallback,
+    useMemo,
+    useRef,
+    useState
+} from "react";
+import {
+    Dimensions,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+    Pressable
+} from "react-native";
+import { IChampion, IChampionSkin } from "../interfaces/Champion";
 import { IHeroOverView } from "../interfaces/route";
-import { getChampionById } from "../services/championsService";
-import { useSafeArea } from "../hooks/useSafeAre";
-import { colors } from "../styles/main";
-import ImageContainer from "../components/ImageContainer";
-import { BASE_URL } from "../services/constants";
+import { useSelector } from "react-redux";
+import { favoritesSummonerSelector } from "../redux/slices/FavoritesSummonersSlice";
+import ChampionHeader from "../components/ChampionHeader";
+import BottomDrawer from "../components/BottomDrawer";
+import { IHandleIndexParams } from "../components/Carousel";
+import ChampionSkin from "../components/ChampionSkins";
+import ChampionDetails from "../components/ChampionDetails";
+import ChampionHeroInfo from "../components/ChampionHeroInfo";
 
 
-function ChampionOverviewScreen() {
+function ChampionOverviewScreen(): ReactElement {
     const { params } = useRoute<RouteProp<IHeroOverView, 'Details'>>();
     const { champion }: { champion: IChampion } = params
-    const { insets } = useSafeArea()
-    const navigation = useNavigation<any>();
+    const favorites: string[] =
+        useSelector(favoritesSummonerSelector).favorites
+
+    const ref = useRef<any>(null);
+    const scrollRef = useRef<ScrollView>(null);
+    const height = Dimensions.get('window').height
 
 
-    const [champion, setChampion] =
-        useState<IChampion | null>(null)
+    const [scroll, setScroll] = useState<boolean>(false)
+    const [championTitle, setChampionTitle] =
+        useState<string>('');
+
+    const isFav: string | null = useMemo(() => {
+        return favorites.filter(
+            (fav: string) => fav == champion.id)[0]
+    }, [favorites, champion])
 
 
-    const handleGoToHome = (): void => {
-        navigation.navigate('Home', {})
+    const handleCloseDrawer = (): void => {
+        ref.current.endAnimation()
+        scrollRef.current?.scrollTo({
+            y: 0,
+            animated: true,
+        });
+        setScroll(false)
     }
 
-    useEffect(() => {
-        getChampionById(id).then(r => setChampion(r))
-    }, [])
+    const handleOpenDrawer: RefCallback<any> = useCallback(
+        () => {
+            ref.current.startAnimation()
+            setScroll(true)
+        }, [ref, setScroll])
+
+    const handleCarouselChange = ({ index, item }:
+        IHandleIndexParams): void => {
+        if (index == 0) {
+            setChampionTitle(champion.title)
+        } else {
+            const skin: IChampionSkin | any =
+                champion.skins?.filter(
+                    (skin: IChampionSkin) =>
+                        skin.num == item.num)[0]
+            if (skin) {
+                setChampionTitle(skin.name)
+            }
+        }
+    }
 
     return <View
-        style={{
-            ...insets,
-            backgroundColor: colors.primary,
-            flex: 1
-        }}
-    >
+        style={styles.championOverViewContainer}>
 
-        {
-            champion ? <ScrollView>
-                <View style={styles.championContainer} >
-                    <Button
-                        title="go back"
-                        onPress={handleGoToHome} />
-                    <ImageContainer
-                        styles={styles.heroImage}
-                        mainImage={BASE_URL +
-                            'img/champion/loading/' +
-                            `${champion.id}_0.jpg`} />
-                    <Text>{champion.name}</Text>
-                    <Text>{champion.title}</Text>
-                    <Text>{champion.blurb}</Text>
-                    <Text>{champion.lore}</Text>
+        <ChampionHeader
+            championId={champion.id}
+            isFav={isFav}
+            showCloseButton={scroll}
+            handleCloseDrawer={handleCloseDrawer}
+        />
 
+        <ChampionSkin
+            handleCarouselChange={handleCarouselChange}
+            championId={champion.id}
+            championSkins={champion.skins || []}
+        />
 
-
-                </View>
+        <BottomDrawer
+            ref={ref}
+        >
+            <ChampionHeroInfo
+                championName={champion.name}
+                championTitle={championTitle}
+                handleOpenDrawer={!scroll ? handleOpenDrawer : null}
+                height={height}
+                championTags={champion.tags}
+            />
+            <ScrollView
+                ref={scrollRef}
+                scrollEnabled={scroll}
+            >
+                <ChampionDetails
+                    champion={champion}
+                    height={height}
+                />
             </ScrollView>
-                :
-                <Text>Loading.....</Text>
-        }
-    </View>
+        </BottomDrawer>
 
+    </View >
 }
 
 const styles = StyleSheet.create({
-    championContainer: {
-        alignItems: 'center',
-    },
-    heroImage: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain'
+    championOverViewContainer: {
+        position: 'relative',
+        flex: 1,
     }
 })
 

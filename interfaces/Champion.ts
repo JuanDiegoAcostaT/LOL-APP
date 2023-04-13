@@ -8,7 +8,7 @@ interface IChampionImage {
     h: number
 }
 
-interface IChampionSkin {
+export interface IChampionSkin {
     id: string,
     num: number,
     name: string,
@@ -50,7 +50,7 @@ interface ISpellLeveltip {
     effect: string[]
 }
 
-interface IChampionSpell {
+export interface IChampionSpell {
     id: string,
     name: string,
     description: string,
