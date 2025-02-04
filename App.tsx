@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SearchScreen from './screens/SearchScreen';
@@ -19,19 +19,52 @@ import SummonerOverviewScreen from './screens/SummonerOverViewScreen';
 import {Provider} from 'react-redux';
 import {store} from './redux/store';
 import Spinner from './components/Spinner';
+//@ts-ignore
+import Icon from 'react-native-vector-icons/AntDesign';
+import {colors, sizes} from './styles/main';
 
 const Tab = createBottomTabNavigator();
+
+const iconGenerator = (name: string): ReactElement => {
+  return <Icon size={sizes.lg} name={name} color={colors.dark} />;
+};
 
 const MainTabNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={() => ({
+        tabBarActiveTintColor: colors.dark,
+        tabBarInactiveTintColor: colors.secondary,
         headerShown: false,
-      }}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="Favs" component={FavoritesScreen} />
-      <Tab.Screen name="LogIn" component={LoginScreen} />
+      })}>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={() => ({
+          tabBarIcon: () => iconGenerator('home'),
+        })}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchScreen}
+        options={() => ({
+          tabBarIcon: () => iconGenerator('edit'),
+        })}
+      />
+      <Tab.Screen
+        name="Favs"
+        component={FavoritesScreen}
+        options={() => ({
+          tabBarIcon: () => iconGenerator('staro'),
+        })}
+      />
+      <Tab.Screen
+        name="LogIn"
+        component={LoginScreen}
+        options={() => ({
+          tabBarIcon: () => iconGenerator('lock'),
+        })}
+      />
     </Tab.Navigator>
   );
 };
