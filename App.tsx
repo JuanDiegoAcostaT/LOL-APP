@@ -22,6 +22,7 @@ import Spinner from './components/Spinner';
 //@ts-ignore
 import Icon from 'react-native-vector-icons/AntDesign';
 import {colors, sizes} from './styles/main';
+import RegisterScreen from './screens/RegisterScreen';
 import CustomModal from './components/Modal';
 
 const Tab = createBottomTabNavigator();
@@ -86,6 +87,7 @@ function App(): JSX.Element {
               name="HeroeOverView"
               component={HeroeOverviewScreen}
             />
+            <Stack.Screen name="Register" component={RegisterScreen} />
             <Stack.Screen
               name="SummonerOverView"
               component={SummonerOverviewScreen}
