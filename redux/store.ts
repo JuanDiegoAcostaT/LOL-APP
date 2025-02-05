@@ -1,4 +1,5 @@
 import {AnyAction, configureStore, ThunkAction} from '@reduxjs/toolkit';
+import AuthSlice from './slices/AuthSlice';
 import ChampionsSlice from './slices/ChampionsSlice';
 import FavoritesSummonersSlice from './slices/FavoritesSummonersSlice';
 import ModalSlice from './slices/ModalSlice';
@@ -11,6 +12,7 @@ export const store = configureStore({
     favoritesSummonerStore: FavoritesSummonersSlice,
     spinnerStore: SpinnerSlice,
     championsStore: ChampionsSlice,
+    authStore: AuthSlice,
     modalStore: ModalSlice,
   },
 });
