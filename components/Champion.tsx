@@ -11,9 +11,10 @@ import ImageContainer from './ImageContainer';
 
 type IChampionComponent = {
   champion: IChampion;
+  view: string;
 };
 
-function Champion({champion}: IChampionComponent): ReactElement {
+function Champion({champion, view}: IChampionComponent): ReactElement {
   const dispatch = useDispatch();
   const navigation = useNavigation<any>();
 
@@ -22,7 +23,7 @@ function Champion({champion}: IChampionComponent): ReactElement {
     getChampionById(champion.id)
       .then(champion => {
         dispatch(toggleActive(false));
-        navigation.navigate('HeroeOverView', {champion});
+        navigation.navigate('HeroeOverView', {champion, view});
       })
       .catch(() => {
         dispatch(toggleActive(false));
