@@ -30,6 +30,7 @@ type ICarousel = {
   onPress?: Function;
   ItemElement: ReactElement | any;
   handleIndexChange?: (Object: IHandleIndexParams) => void;
+  keyElement: string;
 };
 
 export default function Carousel({
@@ -39,6 +40,7 @@ export default function Carousel({
   delay,
   onPress,
   ItemElement,
+  keyElement,
   handleIndexChange,
 }: ICarousel): ReactElement {
   const [selectedIndex, setselectedIndex] = useState<number>(0);
@@ -54,7 +56,7 @@ export default function Carousel({
     return () => {
       clearInterval(fn);
     };
-  }, []);
+  }, [data, delay]);
 
   useEffect(() => {
     scrollView.current.scrollTo({
@@ -62,9 +64,10 @@ export default function Carousel({
       x: +width * selectedIndex,
       y: 0,
     });
-    if (handleIndexChange)
+    if (handleIndexChange) {
       handleIndexChange({item: data[selectedIndex], index: selectedIndex});
-  }, [selectedIndex]);
+    }
+  }, [selectedIndex, data, handleIndexChange, width]);
 
   const setIndex = (event: NativeSyntheticEvent<NativeScrollEvent>): void => {
     const contentOffset: NativeScrollPoint = event.nativeEvent.contentOffset;
@@ -81,9 +84,9 @@ export default function Carousel({
         onMomentumScrollEnd={setIndex}
         onContentSizeChange={() => scrollView.current.scrollToEnd()}>
         <View style={styles.carousalContainer}>
-          {data.map((item: any, index: number) => (
+          {data.map((item: any) => (
             <TouchableOpacity
-              key={item['keyElement']}
+              key={item[`${keyElement}`]}
               activeOpacity={0.8}
               onPress={() => (onPress ? onPress(item) : null)}
               style={[
