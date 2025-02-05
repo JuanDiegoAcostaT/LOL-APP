@@ -6,7 +6,7 @@ import {IChampion} from '../interfaces/Champion';
 import {toggleActive} from '../redux/slices/SpinnerSlice';
 import {getChampionById} from '../services/championsService';
 import {BASE_URL_CHAMP} from '../services/constants';
-import {colors, sizes} from '../styles/main';
+import {colors, mainStyles, sizes} from '../styles/main';
 import ImageContainer from './ImageContainer';
 
 type IChampionComponent = {
@@ -33,10 +33,11 @@ function Champion({champion}: IChampionComponent): ReactElement {
     <View style={styles.championContainer}>
       <Pressable
         onPress={handleChampionDetails}
-        style={styles.championInnerContainer}>
+        style={[styles.championInnerContainer, mainStyles.shadow]}>
         <Text style={styles.championTitle}>{champion.name}</Text>
         <ImageContainer
           styles={styles.championImage}
+          isUrl={true}
           mainImage={
             BASE_URL_CHAMP + '13.6.1/img/champion/' + champion.image.full
           }
@@ -57,12 +58,6 @@ const styles = StyleSheet.create({
     paddingBottom: sizes.md,
     backgroundColor: colors.light,
     borderRadius: sizes.md,
-    elevation: 4, // android,
-    //ios
-    shadowColor: colors.black,
-    shadowOpacity: 0.25,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 8,
     overflow: Platform.OS == 'android' ? 'hidden' : 'visible',
   },
   championTitle: {
