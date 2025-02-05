@@ -16,20 +16,32 @@ function ChampionHeroInfo(props: IChampionHeroInfo): ReactElement {
     props;
 
   return (
-    <View style={[{height: height * 0.2}, styles.heroInfo]}>
+    <View style={[styles.heroInfo]}>
       <ChampionTags championTags={championTags} height={height} />
-      <Pressable
-        onPress={e => {
-          handleOpenDrawer ? handleOpenDrawer() : e.preventDefault;
-        }}>
-        <Text style={styles.championName}>{championName}</Text>
-        <Text style={styles.championDescription}>{championTitle}</Text>
-      </Pressable>
+      <View style={styles.container}>
+        <View style={styles.pressableContainer} />
+        <Pressable
+          style={styles.pressable}
+          onPress={e => {
+            handleOpenDrawer ? handleOpenDrawer() : e.preventDefault;
+          }}>
+          <Text style={styles.championName}>{championName}</Text>
+          <Text style={styles.championDescription}>{championTitle}</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {position: 'relative', alignItems: 'center', marginTop: 10},
+  pressableContainer: {
+    backgroundColor: 'black',
+    opacity: 0.5,
+    height: 180,
+    width: 400,
+  },
+  pressable: {position: 'absolute'},
   championName: {
     color: colors.white,
     fontSize: sizes.xl * 2,
@@ -42,16 +54,11 @@ const styles = StyleSheet.create({
     fontSize: sizes.xl,
     fontFamily: 'Spiegel',
     textAlign: 'center',
+    marginBottom: sizes.xxl,
   },
   heroInfo: {
     width: '100%',
     alignItems: 'center',
-    elevation: 5, // android,
-    //ios
-    shadowColor: colors.black,
-    shadowOpacity: 1,
-    shadowOffset: {width: 0, height: 5},
-    shadowRadius: 8,
   },
 });
 
