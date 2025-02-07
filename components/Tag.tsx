@@ -1,6 +1,6 @@
 import React, {ReactElement} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {colors, sizes} from '../styles/main';
+import {colors, mainStyles, sizes} from '../styles/main';
 
 type ITag = {
   text: string;
@@ -9,7 +9,7 @@ type ITag = {
 function Tag(props: ITag): ReactElement {
   const {text} = props;
   return (
-    <View style={styles.tag}>
+    <View style={[styles.tag, mainStyles.shadow]}>
       <Text style={styles.tagText}>{text}</Text>
     </View>
   );
@@ -24,12 +24,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: sizes.md,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 4, // android,
-    //ios
-    shadowColor: colors.black,
-    shadowOpacity: 0.25,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 8,
     marginHorizontal: sizes.md,
   },
   tagText: {
