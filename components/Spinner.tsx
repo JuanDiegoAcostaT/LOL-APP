@@ -10,21 +10,24 @@ function Spinner(): ReactElement {
   return (
     <>
       {active ? (
-        <View
-          style={{
-            ...(StyleSheet.absoluteFill as object),
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'rgba(68, 60, 104, 0.8)',
-          }}>
+        <View style={styles.container}>
           <ActivityIndicator
             animating={true}
             size={'large'}
-            color={colors.white}
+            color={colors.primary}
           />
         </View>
       ) : null}
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    ...(StyleSheet.absoluteFill as object),
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+  },
+});
 export default Spinner;
