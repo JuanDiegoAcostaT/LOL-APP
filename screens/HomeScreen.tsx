@@ -13,7 +13,7 @@ import {
 import {AnyAction, ThunkDispatch} from '@reduxjs/toolkit';
 
 function renderCategoryItem({item}: {item: IChampion}): ReactElement {
-  return <Champion champion={item} />;
+  return <Champion view={'home'} champion={item} />;
 }
 
 function HomeScreen() {
