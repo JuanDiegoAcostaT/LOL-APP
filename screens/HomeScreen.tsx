@@ -1,7 +1,7 @@
 import React, {ReactElement, useEffect} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {useSafeArea} from '../hooks/useSafeAre';
-import {colors, mainTitle} from '../styles/main';
+import {colors, mainStyles} from '../styles/main';
 import Champion from '../components/Champion';
 import {IChampion} from '../interfaces/Champion';
 import {useDispatch, useSelector} from 'react-redux';
@@ -31,10 +31,9 @@ function HomeScreen() {
     <View
       style={{
         ...insets,
-        backgroundColor: colors.primary,
-        flex: 1,
+        ...styles.constainer,
       }}>
-      <Text style={mainTitle}>Trending</Text>
+      <Text style={mainStyles.mainTitle}>Trending</Text>
 
       <FlatList
         data={champions}
@@ -45,5 +44,12 @@ function HomeScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  constainer: {
+    backgroundColor: colors.primary,
+    flex: 1,
+  },
+});
 
 export default HomeScreen;
