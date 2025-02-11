@@ -11,6 +11,7 @@ import {
   fetchChampionsList,
 } from '../redux/slices/ChampionsSlice';
 import {AnyAction, ThunkDispatch} from '@reduxjs/toolkit';
+import {fetchFavorites} from '../redux/slices/FavoritesSummonersSlice';
 
 function renderCategoryItem({item}: {item: IChampion}): ReactElement {
   return <Champion view={'home'} champion={item} />;
@@ -23,6 +24,7 @@ function HomeScreen() {
 
   useEffect(() => {
     dispatch(fetchChampionsList());
+    dispatch(fetchFavorites());
   }, [dispatch]);
 
   return (
