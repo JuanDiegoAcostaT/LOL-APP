@@ -7,14 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-} from 'react-native';
+import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {IChampion, IChampionSkin} from '../interfaces/Champion';
 import {IHeroOverView} from '../interfaces/route';
 import {useSelector} from 'react-redux';
@@ -61,15 +54,15 @@ function ChampionOverviewScreen(): ReactElement {
   }, [ref, setScroll]);
 
   const handleCarouselChange = ({index, item}: IHandleIndexParams): void => {
-    if (index == 0) {
-      setChampionTitle(champion.title);
-    } else {
+    if (index > 0) {
       const skin: IChampionSkin | any = champion.skins?.filter(
-        (skin: IChampionSkin) => skin.num == item.num,
+        (sk: IChampionSkin) => sk.num === item.num,
       )[0];
       if (skin) {
         setChampionTitle(skin.name);
       }
+    } else {
+      setChampionTitle(champion.title);
     }
   };
 
