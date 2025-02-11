@@ -1,7 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
+import CustomButton from '../components/CustomButton';
+import CustomInput from '../components/CustomInput';
 import {useSafeArea} from '../hooks/useSafeAre';
 import {toggleActive} from '../redux/slices/SpinnerSlice';
 import {
@@ -10,7 +12,7 @@ import {
   getSummonerMatchesIds,
   getSummonetMatchesInfo,
 } from '../services/SummonerService';
-import {colors, sizes} from '../styles/main';
+import {colors} from '../styles/main';
 
 function SearchScreen() {
   const {insets} = useSafeArea();
@@ -67,18 +69,15 @@ function SearchScreen() {
     <View
       style={{
         ...insets,
-        backgroundColor: colors.primary,
-        flex: 1,
         ...styles.searchScreenContainer,
       }}>
-      <TextInput
-        style={styles.searchBar}
-        onChangeText={text => setTextInputValue(text)}
-        value={textInputValue}
+      <CustomInput
+        handleChange={setTextInputValue}
+        handleValue={textInputValue}
         placeholder="Insert your text!"
-        placeholderTextColor={colors.white}
+        label=""
       />
-      <Button title="search" onPress={handleSummoner} />
+      <CustomButton text="Search" handlePress={handleSummoner} />
       {error ? (
         <View>
           <Text>NO SUMMONER FINDED!</Text>
@@ -92,15 +91,8 @@ const styles = StyleSheet.create({
   searchScreenContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  searchBar: {
-    height: 40,
-    width: '80%',
-    borderColor: colors.gray,
-    borderWidth: 1,
-    backgroundColor: colors.light,
-    borderRadius: sizes.md,
-    paddingHorizontal: sizes.md,
+    backgroundColor: colors.primary,
+    flex: 1,
   },
 });
 
