@@ -1,12 +1,15 @@
 import {useNavigation} from '@react-navigation/native';
+import {ThunkDispatch} from '@reduxjs/toolkit';
 import React, {ReactElement} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 //@ts-ignore
 import Icon from 'react-native-vector-icons/AntDesign';
 import {useDispatch} from 'react-redux';
 import {useSafeArea} from '../hooks/useSafeAre';
-import {removeFavs, setFavs} from '../redux/slices/FavoritesSummonersSlice';
-import {sizes, colors} from '../styles/main';
+import {
+  deleteFavorites,
+  storeFavorites,
+} from '../redux/slices/FavoritesSummonersSlice';
 
 type IChampionHeader = {
   isFav: string | null;
@@ -19,11 +22,12 @@ function ChampionHeader({
   isFav,
   championId,
   handleCloseDrawer,
+  championKey,
   showCloseButton,
 }: IChampionHeader): ReactElement {
   const {insets} = useSafeArea();
   const navigation = useNavigation<any>();
-  const dispatch = useDispatch();
+  const dispatchThunk = useDispatch<ThunkDispatch<any, any, any>>();
 
   const handleGoToHome = (): void => {
     navigation.navigate('Home', {});
@@ -31,9 +35,9 @@ function ChampionHeader({
 
   const handleFav = (): void => {
     if (isFav) {
-      dispatch(removeFavs(championId));
+      dispatchThunk(deleteFavorites(championKey));
     } else {
-      dispatch(setFavs(championId));
+      dispatchThunk(storeFavorites(championId));
     }
   };
 
