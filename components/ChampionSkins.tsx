@@ -1,5 +1,5 @@
 import React, {ReactElement} from 'react';
-import {Dimensions} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import {IChampionSkin} from '../interfaces/Champion';
 import {BASE_URL_CHAMP} from '../services/constants';
 import Carousel, {IHandleIndexParams} from './Carousel';
@@ -16,10 +16,8 @@ function ChampionSkin(props: IChampionSkinComponent): ReactElement {
 
   const carouselItem = ({num}: {num: IChampionSkin}): ReactElement => (
     <ImageContainer
-      styles={{
-        height: Dimensions.get('window').height,
-        opacity: 0.7,
-      }}
+      isUrl={true}
+      styles={styles.imageContainer}
       mainImage={
         BASE_URL_CHAMP + 'img/champion/loading/' + `${championId}_${num}.jpg`
       }
@@ -31,11 +29,19 @@ function ChampionSkin(props: IChampionSkinComponent): ReactElement {
       height={Dimensions.get('window').height}
       width={Dimensions.get('window').width}
       delay={10000}
+      keyElement={'id'}
       ItemElement={carouselItem}
       handleIndexChange={handleCarouselChange}
       data={championSkins || []}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  imageContainer: {
+    height: Dimensions.get('window').height,
+    opacity: 0.7,
+  },
+});
 
 export default ChampionSkin;
