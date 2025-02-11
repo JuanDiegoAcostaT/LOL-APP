@@ -28,7 +28,7 @@ import ChampionHeroInfo from '../components/ChampionHeroInfo';
 
 function ChampionOverviewScreen(): ReactElement {
   const {params} = useRoute<RouteProp<IHeroOverView, 'Details'>>();
-  const {champion}: {champion: IChampion} = params;
+  const {champion, view}: {champion: IChampion; view: string} = params;
   const favorites: string[] = useSelector(favoritesSummonerSelector).favorites;
 
   const ref = useRef<any>(null);
@@ -72,6 +72,7 @@ function ChampionOverviewScreen(): ReactElement {
   return (
     <View style={styles.championOverViewContainer}>
       <ChampionHeader
+        view={view}
         championId={champion.id}
         isFav={isFav}
         showCloseButton={scroll}
