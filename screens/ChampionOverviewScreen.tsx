@@ -38,8 +38,12 @@ function ChampionOverviewScreen(): ReactElement {
   const [scroll, setScroll] = useState<boolean>(false);
   const [championTitle, setChampionTitle] = useState<string>('');
 
-  const isFav: string | null = useMemo(() => {
-    return favorites.filter((fav: string) => fav == champion.id)[0];
+  const favoriteChampion: any | null = useMemo(() => {
+    if (favorites.length) {
+      return favorites.filter((fav: any) => fav.id === champion.id)[0];
+    } else {
+      return null;
+    }
   }, [favorites, champion]);
 
   const handleCloseDrawer = (): void => {
@@ -74,7 +78,7 @@ function ChampionOverviewScreen(): ReactElement {
       <ChampionHeader
         view={view}
         championId={champion.id}
-        isFav={isFav}
+        isFav={favoriteChampion}
         showCloseButton={scroll}
         handleCloseDrawer={handleCloseDrawer}
       />
