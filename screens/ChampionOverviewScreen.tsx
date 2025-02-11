@@ -78,6 +78,7 @@ function ChampionOverviewScreen(): ReactElement {
       <ChampionHeader
         view={view}
         championId={champion.id}
+        championKey={favoriteChampion ? favoriteChampion.key : null}
         isFav={favoriteChampion}
         showCloseButton={scroll}
         handleCloseDrawer={handleCloseDrawer}
