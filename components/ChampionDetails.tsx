@@ -1,7 +1,7 @@
 import React, {ReactElement} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {IChampion} from '../interfaces/Champion';
-import ChampionSpells from '../screens/ChampionSpells';
+import ChampionSpells from './ChampionSpells';
 import {colors, sizes} from '../styles/main';
 import ChampionTips from './ChampionTips';
 
