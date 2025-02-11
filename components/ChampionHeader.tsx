@@ -10,12 +10,30 @@ import {
   deleteFavorites,
   storeFavorites,
 } from '../redux/slices/FavoritesSummonersSlice';
+import {sizes, colors, mainStyles} from '../styles/main';
 
 type IChampionHeader = {
   isFav: string | null;
   championId: string;
   handleCloseDrawer: Function;
   showCloseButton: boolean;
+  championKey: string;
+  view: string;
+};
+
+type IButtonGenerator = {
+  name: string;
+  handlePress: () => void;
+};
+
+const ButtonGenerator = (props: IButtonGenerator): ReactElement => {
+  return (
+    <Pressable
+      style={[styles.buttonBackground, mainStyles.shadow]}
+      onPress={props.handlePress}>
+      <Icon size={sizes.lg} name={props.name} color={colors.primary} />
+    </Pressable>
+  );
 };
 
 function ChampionHeader({
@@ -23,6 +41,7 @@ function ChampionHeader({
   championId,
   handleCloseDrawer,
   championKey,
+  view,
   showCloseButton,
 }: IChampionHeader): ReactElement {
   const {insets} = useSafeArea();
@@ -30,7 +49,8 @@ function ChampionHeader({
   const dispatchThunk = useDispatch<ThunkDispatch<any, any, any>>();
 
   const handleGoToHome = (): void => {
-    navigation.navigate('Home', {});
+    const path: string = view === 'home' ? 'Home' : 'Favs';
+    navigation.navigate(path, {});
   };
 
   const handleFav = (): void => {
@@ -47,24 +67,14 @@ function ChampionHeader({
         ...styles.headerActions,
         marginTop: insets.paddingTop,
       }}>
-      <Pressable style={styles.buttonBackground} onPress={handleGoToHome}>
-        <Icon size={sizes.lg} name="arrowleft" color={colors.primary} />
-      </Pressable>
+      <ButtonGenerator name="arrowleft" handlePress={handleGoToHome} />
       {showCloseButton ? (
-        <Pressable
-          style={styles.buttonBackground}
-          onPress={() => handleCloseDrawer()}>
-          <Icon size={sizes.lg} name={'close'} color={colors.primary} />
-        </Pressable>
+        <ButtonGenerator name="close" handlePress={() => handleCloseDrawer()} />
       ) : null}
-
-      <Pressable style={styles.buttonBackground} onPress={handleFav}>
-        <Icon
-          size={sizes.lg}
-          name={isFav ? 'star' : 'staro'}
-          color={colors.primary}
-        />
-      </Pressable>
+      <ButtonGenerator
+        name={isFav ? 'star' : 'staro'}
+        handlePress={handleFav}
+      />
     </View>
   );
 }
@@ -86,12 +96,6 @@ const styles = StyleSheet.create({
     borderRadius: 44 / 2,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 4, // android,
-    //ios
-    shadowColor: colors.black,
-    shadowOpacity: 0.25,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 8,
   },
 });
 
