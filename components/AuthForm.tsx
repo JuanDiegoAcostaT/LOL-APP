@@ -1,19 +1,30 @@
-import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import CustomInput from '../components/CustomInput';
 import FormStructure from '../components/FormStructure';
-import {createNewUser, logInUser} from '../redux/slices/AuthSlice';
-import {toggleActiveModal} from '../redux/slices/ModalSlice';
 import {toggleActive} from '../redux/slices/SpinnerSlice';
 import {validateEmail} from '../utils/emailValidator';
+import {useAuth} from '../hooks/useAuth';
 
 type IAuthForm = {
   isLogin: boolean;
 };
 
+const ERROS_LIST = {
+  email: {
+    empty: 'email field must not be empty',
+    notEmail: 'text field must be email',
+    notsame: 'email and comnfirm email must be the same',
+  },
+  password: {
+    empty: 'password field must no be empty',
+    notsame: 'password and comnfirm password must be the same',
+  },
+};
+
 function AuthForm(props: IAuthForm) {
   const {isLogin} = props;
+  const {handleRegister, handleLogin} = useAuth();
 
   const [email, setEmail] = useState<string>('');
   const [psw, setPsw] = useState<string>('');
@@ -22,69 +33,50 @@ function AuthForm(props: IAuthForm) {
   const [error, setError] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const dispatch = useDispatch<any>();
-  const navigation = useNavigation<any>();
 
-  const handleError = (err: any) => {
-    console.log('CATCH', err);
-    dispatch(
-      toggleActiveModal({
-        active: true,
-        text: 'Hubo un error',
-        title: 'ERROR',
-        type: '',
-      }),
-    );
-    dispatch(toggleActive(false));
-  };
-
-  const handleSubmit = async () => {
+  const handleErrorMsg = () => {
     setError('');
+    let errorMsg = '';
+    let errorField = 'email';
+
     if (email === '') {
-      setError('email');
-      setErrorMessage('email field must not be empty');
-      return;
+      errorMsg = ERROS_LIST.email.empty;
     }
     if (!validateEmail(email)) {
-      setError('email');
-      setErrorMessage('text field must be email');
-      return;
+      errorMsg = ERROS_LIST.email.notEmail;
     }
     if (emailConfirm !== email && !isLogin) {
-      setError('emailc');
-      setErrorMessage('email and comnfirm email must be the same');
-      return;
+      errorMsg = ERROS_LIST.email.notsame;
     }
     if (psw === '') {
       setError('psw');
-      setErrorMessage('password field must no be empty');
-      return;
+      errorMsg = ERROS_LIST.password.empty;
     }
     if (psw !== pswConfirm && !isLogin) {
       setError('pswc');
-      setErrorMessage('password and comnfirm password must be the same');
-      return;
-    }
-    dispatch(toggleActive(true));
-    if (!isLogin) {
-      await dispatch(createNewUser({email, psw}))
-        .then(() => {
-          navigation.navigate('LogIn', {});
-          dispatch(toggleActive(false));
-        })
-        .catch((err: any) => handleError(err));
-    } else {
-      await dispatch(logInUser({email, psw}))
-        .then(() => {
-          navigation.navigate('Favs', {});
-          dispatch(toggleActive(false));
-        })
-        .catch((err: any) => handleError(err));
+      errorMsg = ERROS_LIST.password.notsame;
     }
 
+    setError(errorField);
+    setErrorMessage(errorMsg);
+  };
+
+  const resetFields = () => {
     setEmail('');
     setEmailConfirm('');
     setPsw('');
     setPswConfirm('');
+  };
+
+  const handleSubmit = async () => {
+    handleErrorMsg();
+    dispatch(toggleActive(true));
+    if (!isLogin) {
+      handleRegister(email, psw);
+    } else {
+      handleLogin(email, psw);
+    }
+    resetFields();
   };
 
   return (
