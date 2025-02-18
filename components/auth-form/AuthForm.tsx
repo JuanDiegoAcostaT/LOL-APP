@@ -1,17 +1,17 @@
 import React, {useReducer} from 'react';
 import {useDispatch} from 'react-redux';
-import CustomInput from '../components/CustomInput';
-import FormStructure from '../components/FormStructure';
-import {toggleActive} from '../redux/slices/SpinnerSlice';
-import {validateEmail} from '../utils/emailValidator';
-import {useAuth} from '../hooks/useAuth';
+import CustomInput from '../CustomInput';
+import FormStructure from '../FormStructure';
+import {toggleActive} from '../../redux/slices/SpinnerSlice';
+import {validateEmail} from '../../utils/emailValidator';
+import {useAuth} from '../../hooks/useAuth';
 import {
   authFormReducer,
   IAuthFormPayloadKey,
   initialState,
   RESET_VALUES,
   SET_VALUES,
-} from '../reducers/AuthForm';
+} from '../../reducers/AuthForm';
 
 type IAuthForm = {
   isLogin: boolean;
