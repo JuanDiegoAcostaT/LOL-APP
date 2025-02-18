@@ -1,10 +1,17 @@
-import React, {useState} from 'react';
+import React, {useReducer} from 'react';
 import {useDispatch} from 'react-redux';
 import CustomInput from '../components/CustomInput';
 import FormStructure from '../components/FormStructure';
 import {toggleActive} from '../redux/slices/SpinnerSlice';
 import {validateEmail} from '../utils/emailValidator';
 import {useAuth} from '../hooks/useAuth';
+import {
+  authFormReducer,
+  IAuthFormPayloadKey,
+  initialState,
+  RESET_VALUES,
+  SET_VALUES,
+} from '../reducers/AuthForm';
 
 type IAuthForm = {
   isLogin: boolean;
@@ -22,61 +29,71 @@ const ERROS_LIST = {
   },
 };
 
+const ERROR_TYPE: {[key: string]: IAuthFormPayloadKey} = {
+  msg: 'errorMessage',
+  err: 'error',
+};
+
+const ERROR_DESC: {[key: string]: IAuthFormPayloadKey} = {
+  email: 'email',
+  emailConfirm: 'emailConfirm',
+  password: 'psw',
+  passwordConfirm: 'pswConfirm',
+};
+
 function AuthForm(props: IAuthForm) {
   const {isLogin} = props;
   const {handleRegister, handleLogin} = useAuth();
-
-  const [email, setEmail] = useState<string>('');
-  const [psw, setPsw] = useState<string>('');
-  const [emailConfirm, setEmailConfirm] = useState<string>('');
-  const [pswConfirm, setPswConfirm] = useState<string>('');
-  const [error, setError] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [state, dispatchReducer] = useReducer(authFormReducer, initialState);
   const dispatch = useDispatch<any>();
+  const {email, emailConfirm, error, errorMessage, psw, pswConfirm} = state;
 
-  const handleErrorMsg = () => {
-    setError('');
-    let errorMsg = '';
-    let errorField = 'email';
-
-    if (email === '') {
-      errorMsg = ERROS_LIST.email.empty;
-    }
-    if (!validateEmail(email)) {
-      errorMsg = ERROS_LIST.email.notEmail;
-    }
-    if (emailConfirm !== email && !isLogin) {
-      errorMsg = ERROS_LIST.email.notsame;
-    }
-    if (psw === '') {
-      setError('psw');
-      errorMsg = ERROS_LIST.password.empty;
-    }
-    if (psw !== pswConfirm && !isLogin) {
-      setError('pswc');
-      errorMsg = ERROS_LIST.password.notsame;
-    }
-
-    setError(errorField);
-    setErrorMessage(errorMsg);
+  const handleFields = (value: string, key: IAuthFormPayloadKey): void => {
+    dispatchReducer({type: SET_VALUES, payload: {key, value}});
   };
 
-  const resetFields = () => {
-    setEmail('');
-    setEmailConfirm('');
-    setPsw('');
-    setPswConfirm('');
+  const handleErrorMsg = () => {
+    handleFields(ERROR_DESC.email, ERROR_TYPE.err);
+    handleFields('', ERROR_TYPE.msg);
+
+    if (email === '') {
+      handleFields(ERROS_LIST.email.empty, ERROR_TYPE.msg);
+      return false;
+    }
+    if (!validateEmail(email)) {
+      handleFields(ERROS_LIST.email.notEmail, ERROR_TYPE.msg);
+      return false;
+    }
+    if (emailConfirm !== email && !isLogin) {
+      handleFields(ERROR_DESC.emailConfirm, ERROR_TYPE.err);
+      handleFields(ERROS_LIST.email.notsame, ERROR_TYPE.msg);
+      return false;
+    }
+    if (psw === '') {
+      handleFields(ERROR_DESC.password, ERROR_TYPE.err);
+      handleFields(ERROS_LIST.password.empty, ERROR_TYPE.msg);
+      return false;
+    }
+    if (psw !== pswConfirm && !isLogin) {
+      handleFields(ERROR_DESC.passwordConfirm, ERROR_TYPE.err);
+      handleFields(ERROS_LIST.password.notsame, ERROR_TYPE.msg);
+      return false;
+    }
+    return true;
   };
 
   const handleSubmit = async () => {
-    handleErrorMsg();
+    const validation = handleErrorMsg();
+    if (!validation) {
+      return;
+    }
     dispatch(toggleActive(true));
     if (!isLogin) {
       handleRegister(email, psw);
     } else {
       handleLogin(email, psw);
     }
-    resetFields();
+    dispatchReducer({type: RESET_VALUES, payload: {}});
   };
 
   return (
@@ -86,33 +103,35 @@ function AuthForm(props: IAuthForm) {
       error={errorMessage}>
       <CustomInput
         label="Email"
-        handleChange={setEmail}
+        handleChange={value => handleFields(value, ERROR_DESC.email)}
         handleValue={email}
         placeholder={'example@gmail.com'}
-        error={error.includes('email')}
+        error={error.includes(ERROR_DESC.email)}
       />
       {!isLogin ? (
         <CustomInput
           label="Confirm email"
-          handleChange={setEmailConfirm}
+          handleChange={value => handleFields(value, ERROR_DESC.emailConfirm)}
           handleValue={emailConfirm}
-          error={error.includes('emailc')}
+          error={error.includes(ERROR_DESC.emailConfirm)}
         />
       ) : null}
       <CustomInput
         label="Password"
-        handleChange={setPsw}
+        handleChange={value => handleFields(value, ERROR_DESC.password)}
         handleValue={psw}
         placeholder={'XXXXXXXXXXXXXXX'}
-        error={error.includes('psw')}
+        error={error.includes(ERROR_DESC.password)}
         password={true}
       />
       {!isLogin ? (
         <CustomInput
           label="Confirm password"
-          handleChange={setPswConfirm}
+          handleChange={value =>
+            handleFields(value, ERROR_DESC.passwordConfirm)
+          }
           handleValue={pswConfirm}
-          error={error.includes('pswc')}
+          error={error.includes(ERROR_DESC.passwordConfirm)}
           password={true}
         />
       ) : null}
