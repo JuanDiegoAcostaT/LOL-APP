@@ -12,14 +12,14 @@ export const ERROS_LIST = {
   },
 };
 
-export const ERROR_TYPE: {[key: string]: IAuthFormPayloadKey} = {
+export const ERROR_TYPE: {[key: string]: IAuthFormPayloadKey} = Object.freeze({
   msg: 'errorMessage',
   err: 'error',
-};
+});
 
-export const ERROR_DESC: {[key: string]: IAuthFormPayloadKey} = {
+export const ERROR_DESC: {[key: string]: IAuthFormPayloadKey} = Object.freeze({
   email: 'email',
   emailConfirm: 'emailConfirm',
   password: 'psw',
   passwordConfirm: 'pswConfirm',
-};
+});
