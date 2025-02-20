@@ -11,6 +11,7 @@ import {
 import {toggleActive} from '../../redux/slices/SpinnerSlice';
 import {validateEmail} from '../../utils/emailValidator';
 import {ERROR_DESC, ERROR_TYPE, ERROS_LIST} from './constants';
+import {AppDispatch} from '../../redux/store';
 
 export type IAuthForm = {
   isLogin: boolean;
@@ -18,16 +19,17 @@ export type IAuthForm = {
 
 export const useAuthForm = (props: IAuthForm) => {
   const {isLogin} = props;
+  const dispatch = useDispatch<AppDispatch>();
+
   const {handleRegister, handleLogin} = useAuth();
   const [state, dispatchReducer] = useReducer(authFormReducer, initialState);
-  const dispatch = useDispatch<any>();
   const {email, emailConfirm, error, errorMessage, psw, pswConfirm} = state;
 
   const handleFields = (value: string, key: IAuthFormPayloadKey): void => {
     dispatchReducer({type: SET_VALUES, payload: {key, value}});
   };
 
-  const handleErrorMsg = () => {
+  const handleErrorMsg = (): boolean => {
     handleFields(ERROR_DESC.email, ERROR_TYPE.err);
     handleFields('', ERROR_TYPE.msg);
 
